@@ -2,7 +2,7 @@
 const utils = require('./utils');
 const constants = require('./constants');
 
-module.exports = class Position {
+class Position {
     static GLOBAL_COORDS_MAX = constants.GLOBAL_COORDS_MAX;
     static GLOBAL_COORDS_MIN = constants.GLOBAL_COORDS_MIN;
     static BLOCK_LENGTH = constants.BLOCK_LENGTH;
@@ -147,4 +147,7 @@ module.exports = class Position {
     // toGeoJson?
 
 }
+
+
+module.exports = Position;
 
