@@ -14,7 +14,7 @@ class Position {
         // Validate objCellId format?
         if (!objCellId) throw new Error('No objCellId provided');
 
-        this.objCellId = objCellId;
+        this.objCellId = Number(objCellId);
         this.position = [positionX, positionY, positionZ];
         this.rotation = [rotationW, rotationX, rotationY, rotationZ];
         this.landblock = this.ObjCellId >> 16;
@@ -25,9 +25,9 @@ class Position {
         this.landblockY = this.objCellId >> 16 & 0xFF;
         this.globalCellX = this.landblockX * 8 + this.cellX;
         this.globalCellY = this.landblockY * 8 + this.cellY;
-        this.objCellIdHex = "0x" + ((Number(this.objCellId).toString(16)).padStart(8, '0')).toUpperCase();
-        this.landblockHex = this.landblock.toString(16).padStart(4, '0').toUpperCase();
-        this.cellHex = this.cell.toString(16).padStart(4, '0').toUpperCase();
+        this.objCellIdHex = "0x" + ((utils.decToHex(this.objCellId)).padStart(8, '0')).toUpperCase();
+        this.landblockHex = ((utils.decToHex(this.landblock)).padStart(4, '0')).toUpperCase();
+        this.cellHex = ((this.decToHex(this.cell)).padStart(4, '0')).toUpperCase();
 
     }
 
@@ -63,8 +63,8 @@ class Position {
         if (matches[1].endsWith('S') || matches[1].endsWith('s')) northSouthDec = northSouthDec * -1;
 
         // convert from (-101.95, 102.05) to (0, 204)
-        const ew = eastWestDec + 101.95;
-        const ns = northSouthDec + 101.95;
+        const ew = eastWestDec + constants.RADAR_SOUTHWEST;
+        const ns = northSouthDec + constants.RADAR_SOUTHWEST;
         const globalX = ew * 240;
         const globalY = ns * 240;
         const blockX = Math.trunc(globalX / Position.BLOCK_LENGTH);
@@ -148,6 +148,4 @@ class Position {
 
 }
 
-
 module.exports = Position;
-
