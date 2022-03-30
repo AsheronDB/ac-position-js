@@ -10,7 +10,7 @@ module.exports = {
             name: 'ACPosition',
             type: 'umd',
         },
-        // globalObject: 'this' // This line was missing
+        globalObject: 'this' // This line was missing
         
     }
     // output: {
