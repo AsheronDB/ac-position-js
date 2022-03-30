@@ -6,7 +6,7 @@ module.exports = {
     output: {
         library: {
             name: 'acpositionjs',
-            type: 'var'
+            type: 'umd'
         }
         
     }
