@@ -1,14 +1,22 @@
 {
-  "name": "ac-position-js",
-  "version": "1.0.0",
-  "description": "",
+  "name": "@asherondb/ac-position",
+  "version": "0.1.0",
+  "description": "A helper class for managing game position data for Asheron's Call.",
   "main": "./dist/main.js",
   "scripts": {
     "build": "webpack --config webpack.config.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AsheronDB/ac-position-js.git"
+  },
   "keywords": [],
-  "author": "",
+  "author": "Jesse L.K. Overton <jesse@ovrtn.com> (https://ovrtn.com)",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AsheronDB/ac-position-js/issues"
+  },
+  "homepage": "https://github.com/AsheronDB/ac-position-js#readme",
   "dependencies": {
     "webpack": "^5.70.0"
   },
