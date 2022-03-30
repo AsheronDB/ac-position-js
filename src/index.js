@@ -1,8 +1,11 @@
 
-const utils = require('./utils');
-const constants = require('./constants');
+// const utils = require('./utils');
+// const constants = require('./constants');
 
-return class Position {
+import * as utils from './utils';
+import * as constants from './constants';
+
+class Position {
     static GLOBAL_COORDS_MAX = constants.GLOBAL_COORDS_MAX;
     static GLOBAL_COORDS_MIN = constants.GLOBAL_COORDS_MIN;
     static BLOCK_LENGTH = constants.BLOCK_LENGTH;
@@ -147,3 +150,6 @@ return class Position {
     // toGeoJson?
 
 }
+
+
+export default Position;
