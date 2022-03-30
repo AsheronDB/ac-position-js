@@ -30,7 +30,7 @@ export default class Position {
         this.globalCellY = this.landblockY * 8 + this.cellY;
         this.objCellIdHex = "0x" + ((utils.decToHex(this.objCellId)).padStart(8, '0')).toUpperCase();
         this.landblockHex = ((utils.decToHex(this.landblock)).padStart(4, '0')).toUpperCase();
-        this.cellHex = ((this.decToHex(this.cell)).padStart(4, '0')).toUpperCase();
+        this.cellHex = ((utils.decToHex(this.cell)).padStart(4, '0')).toUpperCase();
 
     }
 
