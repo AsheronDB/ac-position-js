@@ -6,8 +6,10 @@ module.exports = {
     output: {
         library: {
             name: 'acpositionjs',
-            type: 'umd'
-        }
+            type: 'umd',
+            export: "default"
+        },
+        // globalObject: 'this' // This line was missing
         
     }
     // output: {
