@@ -9,7 +9,7 @@ module.exports = {
             type: 'umd',
             export: "default"
         },
-        // globalObject: 'this' // This line was missing
+        globalObject: 'this' // This line was missing
         
     }
     // output: {
