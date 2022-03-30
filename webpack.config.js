@@ -9,6 +9,7 @@ module.exports = {
         library: {
             name: 'ACPosition',
             type: 'umd',
+            export: 'default'
         },
         globalObject: 'this' // This line was missing
         
