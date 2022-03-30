@@ -4,13 +4,13 @@ module.exports = {
     mode: "production",
     entry: path.resolve(__dirname, 'src', 'index.js'),
     output: {
+        filename: 'main.js',
         path: path.resolve(__dirname, 'dist'),
         library: {
-            name: 'acpositionjs',
-            type: 'var',
-            export: "default"
+            name: 'ACPosition',
+            type: 'umd',
         },
-        globalObject: 'this' // This line was missing
+        // globalObject: 'this' // This line was missing
         
     }
     // output: {
