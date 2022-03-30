@@ -5,6 +5,7 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'main.js',
+        library: 'ac-position-js',
         libraryTarget: 'umd',
         globalObject: 'this'
     }
