@@ -5,7 +5,7 @@
 import * as utils from './utils';
 import * as constants from './constants';
 
-class Position {
+export default class Position {
     static GLOBAL_COORDS_MAX = constants.GLOBAL_COORDS_MAX;
     static GLOBAL_COORDS_MIN = constants.GLOBAL_COORDS_MIN;
     static BLOCK_LENGTH = constants.BLOCK_LENGTH;
@@ -152,4 +152,3 @@ class Position {
 }
 
 
-export default Position;

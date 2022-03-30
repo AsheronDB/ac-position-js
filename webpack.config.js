@@ -2,11 +2,12 @@ const path = require('path');
 
 module.exports = {
     mode: "production",
-
+    entry: path.resolve(__dirname, 'src', 'index.js'),
     output: {
+        path: path.resolve(__dirname, 'dist'),
         library: {
             name: 'acpositionjs',
-            type: 'umd',
+            type: 'var',
             export: "default"
         },
         globalObject: 'this' // This line was missing
