@@ -6,11 +6,11 @@ import * as utils from './utils';
 import * as constants from './constants';
 
 export default class Position {
-    static GLOBAL_COORDS_MAX = constants.GLOBAL_COORDS_MAX;
-    static GLOBAL_COORDS_MIN = constants.GLOBAL_COORDS_MIN;
-    static BLOCK_LENGTH = constants.BLOCK_LENGTH;
-    static CELL_SIDE = constants.CELL_SIDE;
-    static CELL_LENGTH = constants.CELL_LENGTH;
+    // static GLOBAL_COORDS_MAX = constants.GLOBAL_COORDS_MAX;
+    // static GLOBAL_COORDS_MIN = constants.GLOBAL_COORDS_MIN;
+    // static BLOCK_LENGTH = constants.BLOCK_LENGTH;
+    // static CELL_SIDE = constants.CELL_SIDE;
+    // static CELL_LENGTH = constants.CELL_LENGTH;
 
     constructor(objCellId, positionX = 0, positionY = 0, positionZ = 0, rotationW = 1, rotationX = 0, rotationY = 0, rotationZ = 0) {
 
@@ -23,7 +23,7 @@ export default class Position {
         this.landblock = this.ObjCellId >> 16;
         this.cellX = Math.trunc(((objCellId & 0xFFFF) - 1) / 8);
         this.cellY = Math.trunc(((objCellId & 0xFFFF) - 1) % 8);
-        this.cell = this.cellX * Position.CELL_SIDE + this.cellY + 1;
+        this.cell = this.cellX * constants.CELL_LENGTH + this.cellY + 1;
         this.landblockX = this.objCellId >> 24 & 0xFF;
         this.landblockY = this.objCellId >> 16 & 0xFF;
         this.globalCellX = this.landblockX * 8 + this.cellX;
@@ -70,26 +70,26 @@ export default class Position {
         const ns = northSouthDec + constants.RADAR_SOUTHWEST;
         const globalX = ew * 240;
         const globalY = ns * 240;
-        const blockX = Math.trunc(globalX / Position.BLOCK_LENGTH);
-        const blockY = Math.trunc(globalY / Position.BLOCK_LENGTH);
-        const originX = globalX % Position.BLOCK_LENGTH;
-        const originY = globalY % Position.BLOCK_LENGTH;
-        const cellX = Math.trunc(originX / Position.CELL_LENGTH);
-        const cellY = Math.trunc(originY / Position.CELL_LENGTH);
-        const cell = cellX * Position.CELL_SIDE + cellY + 1;
+        const blockX = Math.trunc(globalX / constants.CELL_LENGTH);
+        const blockY = Math.trunc(globalY / constants.CELL_LENGTH);
+        const originX = globalX % constants.CELL_LENGTH;
+        const originY = globalY % constants.CELL_LENGTH;
+        const cellX = Math.trunc(originX / constants.CELL_LENGTH);
+        const cellY = Math.trunc(originY / constants.CELL_LENGTH);
+        const cell = cellX * constants.CELL_LENGTH + cellY + 1;
         const objCellId = Position.toObjCellId(blockX, blockY, cell);
         return new Position(objCellId, originX, originY);
     }
 
     static fromGlobal(globalX, globalY) {
-        if (globalX > this.GLOBAL_COORDS_MAX || globalX < this.GLOBAL_COORDS_MIN || globalY > this.GLOBAL_COORDS_MAX || globalY < this.GLOBAL_COORDS_MIN) {
+        if (globalX > constants.GLOBAL_COORDS_MAX || globalX < constants.GLOBAL_COORDS_MIN || globalY > constants.GLOBAL_COORDS_MAX || globalY < constants.GLOBAL_COORDS_MIN) {
             throw new RangeError('World coordinates are out of bounds');
         } else {
             const originX = globalX % 192;
             const originY = globalY % 192;
-            const cellX = Math.trunc(originX / Position.CELL_LENGTH);
-            const cellY = Math.trunc(originY / Position.CELL_LENGTH);
-            const cell = cellX * Position.CELL_SIDE + cellY + 1;
+            const cellX = Math.trunc(originX / constants.CELL_LENGTH);
+            const cellY = Math.trunc(originY / constants.CELL_LENGTH);
+            const cell = cellX * constants.CELL_LENGTH + cellY + 1;
             const blockX = Math.trunc(globalX / 192);
             const blockY = Math.trunc(globalY / 192);
             const objCellId = Position.toObjCellId(blockX, blockY, cell);;
