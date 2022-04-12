@@ -5,25 +5,25 @@
 import * as utils from './utils';
 import * as constants from './constants';
 
-export default class Position {
+export default class ACPosition {
     // static GLOBAL_COORDS_MAX = constants.GLOBAL_COORDS_MAX;
     // static GLOBAL_COORDS_MIN = constants.GLOBAL_COORDS_MIN;
     // static BLOCK_LENGTH = constants.BLOCK_LENGTH;
     // static CELL_SIDE = constants.CELL_SIDE;
     // static CELL_LENGTH = constants.CELL_LENGTH;
 
-    constructor(objCellId, positionX = 0, positionY = 0, positionZ = 0, rotationW = 1, rotationX = 0, rotationY = 0, rotationZ = 0) {
+    constructor(objCellId, ACPositionX = 0, ACPositionY = 0, ACPositionZ = 0, rotationW = 1, rotationX = 0, rotationY = 0, rotationZ = 0) {
 
         // Validate objCellId format?
         if (!objCellId) throw new Error('No objCellId provided');
 
         this.objCellId = Number(objCellId);
-        this.position = [positionX, positionY, positionZ];
+        this.ACPosition = [ACPositionX, ACPositionY, ACPositionZ];
         this.rotation = [rotationW, rotationX, rotationY, rotationZ];
         this.landblock = this.ObjCellId >> 16;
         this.cellX = Math.trunc(((objCellId & 0xFFFF) - 1) / 8);
         this.cellY = Math.trunc(((objCellId & 0xFFFF) - 1) % 8);
-        this.cell = this.cellX * constants.CELL_LENGTH + this.cellY + 1;
+        this.cell = this.cellX * constants.CELL_SIDE + this.cellY + 1;
         this.landblockX = this.objCellId >> 24 & 0xFF;
         this.landblockY = this.objCellId >> 16 & 0xFF;
         this.globalCellX = this.landblockX * 8 + this.cellX;
@@ -35,26 +35,26 @@ export default class Position {
     }
 
     get originZ() {
-        return this.position[2];
+        return this.ACPosition[2];
     }
 
     set originZ(newOriginZ) {
-        this.position[2] = newOriginZ;
+        this.ACPosition[2] = newOriginZ;
     }
 
     static deserialize(locString) {
-        if (!Position.isValidLocString(locString)) throw new TypeError('Invalid Loc string');
+        if (!ACPosition.isValidLocString(locString)) throw new TypeError('Invalid Loc string');
         const matches = constants.LOC_STRING_REGEXP.exec(locString);
         constants.LOC_STRING_REGEXP.lastIndex = 0;
         const objCellId = matches[1];
-        const position = [matches[2], matches[3], matches[4]].map(coord => parseFloat(coord, 10));
+        const ACPosition = [matches[2], matches[3], matches[4]].map(coord => parseFloat(coord, 10));
         const rotation = [matches[5], matches[6], matches[7], matches[8]].map(coord => parseFloat(coord, 10));
-        return new Position(objCellId, position[0], position[1], position[2], rotation[0], rotation[1], rotation[2], rotation[3]);
+        return new ACPosition(objCellId, ACPosition[0], ACPosition[1], ACPosition[2], rotation[0], rotation[1], rotation[2], rotation[3]);
     }
 
     static fromRadar(radarString) {
 
-        if (!Position.isValidRadar(radarString)) throw new TypeError('Invalid radar coordinates');
+        if (!ACPosition.isValidRadar(radarString)) throw new TypeError('Invalid radar coordinates');
 
         const matches = constants.RADAR_COORDS_REGEXP.exec(radarString);
         constants.RADAR_COORDS_REGEXP.lastIndex = 0;
@@ -70,15 +70,15 @@ export default class Position {
         const ns = northSouthDec + constants.RADAR_SOUTHWEST;
         const globalX = ew * 240;
         const globalY = ns * 240;
-        const blockX = Math.trunc(globalX / constants.CELL_LENGTH);
-        const blockY = Math.trunc(globalY / constants.CELL_LENGTH);
-        const originX = globalX % constants.CELL_LENGTH;
-        const originY = globalY % constants.CELL_LENGTH;
+        const blockX = Math.trunc(globalX / constants.BLOCK_LENGTH);
+        const blockY = Math.trunc(globalY / constants.BLOCK_LENGTH);
+        const originX = globalX % constants.BLOCK_LENGTH;
+        const originY = globalY % constants.BLOCK_LENGTH;
         const cellX = Math.trunc(originX / constants.CELL_LENGTH);
         const cellY = Math.trunc(originY / constants.CELL_LENGTH);
-        const cell = cellX * constants.CELL_LENGTH + cellY + 1;
-        const objCellId = Position.toObjCellId(blockX, blockY, cell);
-        return new Position(objCellId, originX, originY);
+        const cell = cellX * constants.CELL_SIDE + cellY + 1;
+        const objCellId = ACPosition.toObjCellId(blockX, blockY, cell);
+        return new ACPosition(objCellId, originX, originY);
     }
 
     static fromGlobal(globalX, globalY) {
@@ -89,11 +89,11 @@ export default class Position {
             const originY = globalY % 192;
             const cellX = Math.trunc(originX / constants.CELL_LENGTH);
             const cellY = Math.trunc(originY / constants.CELL_LENGTH);
-            const cell = cellX * constants.CELL_LENGTH + cellY + 1;
+            const cell = cellX * constants.CELL_SIDE + cellY + 1;
             const blockX = Math.trunc(globalX / 192);
             const blockY = Math.trunc(globalY / 192);
-            const objCellId = Position.toObjCellId(blockX, blockY, cell);;
-            return new Position(objCellId, originX, originY);
+            const objCellId = ACPosition.toObjCellId(blockX, blockY, cell);;
+            return new ACPosition(objCellId, originX, originY);
         }
     }
 
@@ -116,9 +116,9 @@ export default class Position {
 
     serialize() {
         const landblockIdHex = this.objCellIdHex;
-        const positionString = this.position.map(coord => Number(coord).toFixed(6)).join(' ');
+        const ACPositionString = this.ACPosition.map(coord => Number(coord).toFixed(6)).join(' ');
         const rotationString = this.rotation.map(coord => Number(coord).toFixed(6)).join(' ');
-        return `${landblockIdHex} [${positionString}] ${rotationString}`;
+        return `${landblockIdHex} [${ACPositionString}] ${rotationString}`;
     }
 
     toRadar(asArray) {
@@ -141,14 +141,12 @@ export default class Position {
 
     toGlobal() {
         return {
-            x: this.landblockX * 192 + this.position[0],
-            y: this.landblockY * 192 + this.position[1],
-            z: this.position[2]
+            x: this.landblockX * 192 + this.ACPosition[0],
+            y: this.landblockY * 192 + this.ACPosition[1],
+            z: this.ACPosition[2]
         }
     }
 
     // toGeoJson?
 
 }
-
-
