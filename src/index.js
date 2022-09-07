@@ -130,7 +130,7 @@ export default class ACPosition {
 
     static isValidLocString(locString) {
         const result = constants.LOC_STRING_REGEXP.test(locString);
-        LOC_STRING_REGEXP.lastIndex = 0;
+        constants.LOC_STRING_REGEXP.lastIndex = 0;
         return result;
     }
 
