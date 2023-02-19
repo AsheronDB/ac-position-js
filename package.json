@@ -1,6 +1,6 @@
 {
     "name": "@asherondb/ac-position",
-    "version": "0.2.2",
+    "version": "0.2.3",
     "description": "A helper class for managing game position data for Asheron's Call.",
     "main": "./dist/main.js",
     "scripts": {

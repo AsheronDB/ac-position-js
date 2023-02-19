@@ -7,6 +7,12 @@ import * as constants from './constants';
 
 export default class ACPosition {
 
+    static GLOBAL_COORDS_MAX = constants.GLOBAL_COORDS_MAX;
+    static GLOBAL_COORDS_MIN = constants.GLOBAL_COORDS_MIN;
+    static BLOCK_LENGTH = constants.BLOCK_LENGTH;
+    static CELL_SIDE = constants.CELL_SIDE;
+    static CELL_LENGTH = constants.CELL_LENGTH;
+
     constructor(
         objCellId,
         positionX = 0,
