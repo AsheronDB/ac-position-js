@@ -7,7 +7,7 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, 'src/main.ts'),
       name: 'AC Position',
-      fileName: (format) => `ACPosition.${format}.js`
+      fileName: 'ACPosition'
     },
     minify: 'terser',
     terserOptions: {

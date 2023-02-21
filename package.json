@@ -10,12 +10,12 @@
   "files": [
     "dist"
   ],
-  "main": "./dist/ACPosition.umd.js",
-  "module": "./dist/ACPosition.es.js",
+  "main": "./dist/ACPosition.umd.cjs",
+  "module": "./dist/ACPosition.js",
   "exports": {
     ".": {
-      "import": "./dist/ACPosition.es.js",
-      "require": "./dist/ACPosition.umd.js"
+      "import": "./dist/ACPosition.js",
+      "require": "./dist/ACPosition.umd.cjs"
     }
   },
   "devDependencies": {
