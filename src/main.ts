@@ -15,7 +15,7 @@ const isValidLocString = (loc: string) => {
   return result;
 };
 
-const isValidRadar = (radarCoords: string) => {
+const isValidRadarCoords = (radarCoords: string) => {
   const result = RADAR_COORDS_REGEXP.test(radarCoords);
   RADAR_COORDS_REGEXP.lastIndex = 0;
   return result;
@@ -159,7 +159,7 @@ class ACPosition {
 // Public
 
 const radarToPos = (radarCoords: string) => {
-  if (!isValidRadar(radarCoords))
+  if (!isValidRadarCoords(radarCoords))
     throw new TypeError("Invalid radar coordinates");
 
   const matches = RADAR_COORDS_REGEXP.exec(radarCoords) || [];
@@ -237,7 +237,7 @@ const globalToPos = (globalX: number, globalY: number) => {
   }
 };
 
-export { ACPosition, radarToPos, locToPos, globalToPos };
+export { ACPosition, radarToPos, locToPos, globalToPos, isValidLocString, isValidRadarCoords };
 
 // toLoc() {
 //     const landblockIdHex = this.objCellIdHex;
