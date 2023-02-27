@@ -2,8 +2,6 @@ import { decToHex, hexToDec } from "./utils";
 import {
   RADAR_COORDS_REGEXP,
   LOC_STRING_REGEXP,
-  GLOBAL_COORDS_MIN,
-  GLOBAL_COORDS_MAX,
   CELL_SIDE,
   CELL_LENGTH,
   BLOCK_LENGTH,
@@ -54,7 +52,7 @@ class ACPosition {
     };
     radar?:
       | {
-          decimal: number[],
+          decimal: number[];
           formatted: string;
         }
       | undefined;
@@ -77,6 +75,7 @@ class ACPosition {
     this.objCellId = objCellId;
     this.objCellIdHex =
       "0x" + decToHex(this.objCellId).padStart(8, "0").toUpperCase();
+
     this.origin = [originX, originY, originZ];
     this.rotation = [rotationW, rotationX, rotationY, rotationZ];
 
@@ -217,14 +216,16 @@ const locToPos = (loc: string) => {
 };
 
 const globalToPos = (globalX: number, globalY: number) => {
-  if (
-    globalX > GLOBAL_COORDS_MAX ||
-    globalX < GLOBAL_COORDS_MIN ||
-    globalY > GLOBAL_COORDS_MAX ||
-    globalY < GLOBAL_COORDS_MIN
-  ) {
-    throw new RangeError("World coordinates are out of bounds");
-  } else {
+  // This only works for outdoor locations, figure out different handler for indoor global coords
+
+//   if (
+//     globalX > GLOBAL_COORDS_MAX ||
+//     globalX < GLOBAL_COORDS_MIN ||
+//     globalY > GLOBAL_COORDS_MAX ||
+//     globalY < GLOBAL_COORDS_MIN
+//   ) {
+//     throw new RangeError("World coordinates are out of bounds");
+  
     const originX = globalX % 192;
     const originY = globalY % 192;
     const cellX = Math.trunc(originX / CELL_LENGTH);
@@ -234,10 +235,17 @@ const globalToPos = (globalX: number, globalY: number) => {
     const blockY = Math.trunc(globalY / 192);
     const objCellId = toObjCellId(blockX, blockY, cell);
     return new ACPosition(objCellId, originX, originY);
-  }
+  
 };
 
-export { ACPosition, radarToPos, locToPos, globalToPos, isValidLocString, isValidRadarCoords };
+export {
+  ACPosition,
+  radarToPos,
+  locToPos,
+  globalToPos,
+  isValidLocString,
+  isValidRadarCoords,
+};
 
 // toLoc() {
 //     const landblockIdHex = this.objCellIdHex;
